@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Name the 50 States</title>
+    <style>
+    body {
+        color: #222222;
+        font-size: 1em;
+        font-family: "Open Sans", sans-serif;
+        background: #ecf0f1;
+        -webkit-transition: background-color .5s ease-out;
+        -moz-transition: background-color .5s ease-out;
+        -o-transition: background-color .5s ease-out;
+        transition: background-color .5s ease-out;
+    }
+    .container {
+        padding-left: 2em;
+        padding-right: 2em;
+        max-width: 20em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #answerField {
+        outline: none;
+        border: none;
+        padding: 10px;
+        font-size: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 100 %;
+        background-color: #3498db;
+        color: white;
+        -webkit-transition: background-color .5s ease-out;
+        -moz-transition: background-color .5s ease-out;
+        -o-transition: background-color .5s ease-out;
+        transition: background-color .5s ease-out;
+    }
+    #answerList {
+        text-transform: capitalize;
+        text-align: center;
+    }
+    #answerList p {
+        margin: 0 auto;
+        border: 1px solid;
+        padding: 10px;
+    }
+    #answerList ul {
+        width: 100%;
+        list-style-type: none;
+        padding: 0px;
+        margin: 0 auto;
+        padding: 10px;
+    }
+    #answerList li {
+        width: 100%;
+        padding: 10px;
+        font-size: 20px;
+        padding: 10px;
+        color: white;
+    }
+    #answerList li:nth-of-type(even) {
+        background-color: #9b59b6;
+    }
+    #answerList li:nth-of-type(odd) {
+        background-color: #8e44ad;
+    }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <p>The rules are simple: Type in all the names of all 50 states within 5 minutes.</p>
+        <p>Enter each state name into the field one by one. Press enter to check.</p>
+
+        <p>Click the start to start the game!</p>
+        <button id="start">START</button>
+        <span id="timer"></span>
+        <form>
+            <input id="answerField" type="text" disabled="disabled">
+        </form>
+        <p id="count"></p>
+        <div id="answerList"></div>
+    </div>
+
+
+    <script>
+    $("#start").click(function() {
+        startGame();
+        console.log("Game Started");
+    });
+
+    function startGame() {
+
+        $('#answerField').prop("disabled", false);
+
+        var count = 300;
+        var counter = setInterval(timer, 1000);
+
+        function convertFromSeconds(sec) {
+            var d = new Date(0, 0, 0);
+            d.setSeconds(+sec);
+            return (d.getHours() ? d.getHours() + ':' : '') + d.getMinutes() + ':' + d.getSeconds();
+        }
+
+        function timer() {
+            if (window.win != true) {
+                count = count - 1;
+                if (count <= 0) {
+                    document.getElementById("timer").innerHTML = "0:00";
+                    $('#answerField').prop("disabled", true);
+                    $('#answerField').val("TIMES UP - YOU LOSE");
+
+
+                    clearInterval(counter);
+
+                    return;
+                }
+            } else {
+
+                $('#answerField').prop("disabled", true);
+                $('#answerField').val("YOU WIN");
+
+
+                clearInterval(counter);
+
+            }
+
+            document.getElementById("timer").innerHTML = convertFromSeconds(count);
+
+        }
+
+    }
+
+
+
+    var stateList = ["alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island", "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia", "wisconsin", "wyoming"];
+    var answered = [];
+
+    function createList(array) {
+        string = "";
+        string += "<ul>"
+        for (var i = array.length - 1; i >= 0; i--) {
+            string += "<li>" + array[i] + "</li>";
+        }
+        string += "</ul>"
+        return string;
+    }
+
+    $("#answerField").keypress(function(event) {
+        if (event.which == 13) {
+            event.preventDefault();
+            console.log(this.value);
+            if (stateList.indexOf(this.value.toLowerCase()) > -1) {
+                if (answered.indexOf(this.value.toLowerCase()) < 0) {
+                    $("#answerField").css('background-color', '#2ecc71');
+                    $("body").css('background-color', '#ecf0f1');
+
+                    answered.push(this.value.toLowerCase());
+                    $("#answerList").html(createList(answered));
+                    $("#count").html("<h4>Count: " + answered.length + "</h4>")
+                } else {
+                    $("#answerField").css('background-color', '#3498db');
+                    $("body").css('background-color', '#ecf0f1');
+
+                }
+            } else {
+                $("#answerField").css('background-color', '#e74c3c');
+                $("body").css('background-color', '#c0392b');
+            }
+            if (answered.length >= 50) {
+                window.win = true;
+                $("#answerField").css('background-color', '#27ae60');
+
+                $("body").css('background-color', '#2ecc71');
+            }
+            this.value = "";
+        }
+
+    });
+    </script>
+
+</body>
+
+</html>
