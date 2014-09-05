@@ -65,6 +65,9 @@
     #answerList li:nth-of-type(odd) {
         background-color: #8e44ad;
     }
+    #answerList li.wrong {
+        background-color: #e74c3c;
+    }
     </style>
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
@@ -116,6 +119,8 @@
 
                     clearInterval(counter);
 
+                    $("#answerList").html(createList(answered, true));
+
                     return;
                 }
             } else {
@@ -139,15 +144,34 @@
     var stateList = ["alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island", "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia", "wisconsin", "wyoming"];
     var answered = [];
 
-    function createList(array) {
-        string = "";
-        string += "<ul>"
-        for (var i = array.length - 1; i >= 0; i--) {
-            string += "<li>" + array[i] + "</li>";
+    function createList(array, missing) {
+        if (missing == false) {
+            string = "";
+            string += "<ul>"
+            for (var i = array.length - 1; i >= 0; i--) {
+                string += "<li>" + array[i] + "</li>";
+            }
+            string += "</ul>"
+            return string;
+        } else {
+            string = "";
+            string += "<ul>"
+            for (var i = 0; i < stateList.length; i++) {
+                if (array.indexOf(stateList[i]) < 0) {
+                    string += "<li class='wrong'>" + stateList[i] + "</li>"
+                }
+            }
+            for (var i = array.length - 1; i >= 0; i--) {
+                string += "<li>" + array[i] + "</li>";
+            }
+            string += "</ul>"
+
+            return string;
+
         }
-        string += "</ul>"
-        return string;
+
     }
+
 
     $("#answerField").keypress(function(event) {
         if (event.which == 13) {
@@ -159,7 +183,7 @@
                     $("body").css('background-color', '#ecf0f1');
 
                     answered.push(this.value.toLowerCase());
-                    $("#answerList").html(createList(answered));
+                    $("#answerList").html(createList(answered, false));
                     $("#count").html("<h4>Count: " + answered.length + "</h4>")
                 } else {
                     $("#answerField").css('background-color', '#3498db');
@@ -175,6 +199,7 @@
                 $("#answerField").css('background-color', '#27ae60');
 
                 $("body").css('background-color', '#2ecc71');
+
             }
             this.value = "";
         }
