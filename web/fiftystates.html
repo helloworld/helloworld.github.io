@@ -120,7 +120,13 @@
         function convertFromSeconds(sec) {
             var d = new Date(0, 0, 0);
             d.setSeconds(+sec);
-            return "Time Left: " + (d.getHours() ? d.getHours() + ':' : '') + d.getMinutes() + ':' + d.getSeconds();
+            if (d.getSeconds() < 10) {
+                return "Time Left: " + d.getMinutes() + ':0' + d.getSeconds();
+
+            } else {
+                return "Time Left: " + d.getMinutes() + ':' + d.getSeconds();
+
+            }
         }
 
         function timer() {
