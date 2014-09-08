@@ -79,8 +79,8 @@
         <p>Enter each state name into the field one by one. Press enter to check.</p>
 
         <p>Click the start to start the game!</p>
-        <button id="start">START</button>
-        <span id="timer"></span>
+        <button id="start" accesskey="s"><u>S</u>TART</button>
+        <span id="timer">5:00</span>
         <form>
             <input id="answerField" type="text" disabled="disabled">
         </form>
@@ -93,6 +93,21 @@
     $("#start").click(function() {
         startGame();
         console.log("Game Started");
+        $("#answerField").focus();
+        $("#start").remove();
+    });
+
+
+
+    $(window).keypress(function(e) {
+        var code = e.which || e.keyCode;
+        switch (code) {
+            case 43:
+                //do stuff
+                return false;
+            default:
+                break;
+        }
     });
 
     function startGame() {
@@ -105,7 +120,7 @@
         function convertFromSeconds(sec) {
             var d = new Date(0, 0, 0);
             d.setSeconds(+sec);
-            return (d.getHours() ? d.getHours() + ':' : '') + d.getMinutes() + ':' + d.getSeconds();
+            return "Time Left: " + (d.getHours() ? d.getHours() + ':' : '') + d.getMinutes() + ':' + d.getSeconds();
         }
 
         function timer() {
@@ -144,7 +159,6 @@
     }
 
 
-
     var stateList = ["alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new hampshire", "new jersey", "new mexico", "new york", "north carolina", "north dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode island", "south carolina", "south dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west virginia", "wisconsin", "wyoming"];
     var answered = [];
 
@@ -156,7 +170,9 @@
                 string += "<li>" + array[i] + "</li>";
             }
             string += "</ul>"
+            console.log(string);
             return string;
+
         } else {
             string = "";
             string += "<ul>"
