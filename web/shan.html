@@ -1,0 +1,129 @@
+<html>
+
+<head>
+
+    <title>50 States in 5 Minutes</title>
+
+    <script type="text/javascript">
+    var mins
+    var secs;
+
+    function startGame() {
+        mins = 2;
+        secs = 0;
+        decrement();
+        document.getElementById("txt").focus();
+    }
+
+
+    function dis(mins, secs) {
+        var disp = "";
+        disp += mins + ":";
+        if (secs <= 9) {
+            disp += "0" + secs;
+        } else {
+            disp += secs;
+        }
+        return (disp);
+    }
+
+    function decrement() {
+        secs--;
+        if (secs == -1) {
+            secs = 59;
+            mins--;
+        }
+        document.cd.disp.value = dis(mins, secs);
+        if ((mins == 0) && (secs == 0)) {
+            window.alert("Time's up! Let's see how you did.");
+            showMissed();
+        } else {
+            cd = setTimeout("decrement()", 1000);
+        }
+    }
+
+
+    var count = 0;
+    var found = new Array();
+    var states = new Array("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming");
+
+    function checkStates(fld) {
+        if (fld.value.length > 3) {
+            for (var i = 0; i < states.length; i++) {
+                if (fld.value.toLowerCase() == states[i].toLowerCase()) {
+                    found[found.length] = states[i];
+                    found.sort(); //alphabetical order
+                    states.splice(i, 1); //remove element
+                    fld.value = "";
+                    count++;
+                    var msg = "";
+                    for (var x = 0; x < found.length; x++) {
+                        msg += found[x] + ", ";
+                        if ((x + 1) % 5 == 0) msg += "<BR>";
+                    }
+                    document.getElementById("found").innerHTML = msg;
+                    document.getElementById("remain").innerHTML = "<B>" + (count) + "/50" + "</B>";
+                    if (count == 50) {
+                        window.alert("You did it!");
+                    }
+                }
+            }
+        } else {
+            if (fld.value == " ") fld.value = "";
+        }
+    }
+
+    function showMissed() {
+        var msg = "";
+        msg += '<BR><FONT COLOR=RED><B>You forgot:</B>';
+        for (var x = 0; x < states.length; x++) {
+            msg += states[x] + ", ";
+            if ((x + 1) % 5 == 0) msg += "<BR>";
+        }
+        msg += '</FONT><br>Remember to post your score in the comments!';
+        document.getElementById("header").innerHTML = msg;
+    }
+    </script>
+</head>
+
+<body>
+    <center>
+        <DIV id="header">
+            <p>You have five minutes to enter all 50 states</p>
+        </DIV>
+        <form name="cd">
+            <button type=button accessKey="s" onclick="startGame()"><u>S</u>tart</button>
+            <input id="txt" readonly="true" type="text" value="02:00" border="1" border-color=white name="disp">
+        </form>
+        <center>
+            <table>
+                <tr>
+                    <td align="center">
+                        <DIV id="remain">
+                            <B>50 states remain</b>
+                        </DIV>
+                        <input type="text" onKeyUp="checkStates(this);" name="input">
+                        <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <B>Named so far:</b>
+                        <DIV id="found">None</DIV>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+        </center>
+</body>
+
+</html>
