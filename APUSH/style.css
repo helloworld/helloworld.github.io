@@ -97,6 +97,10 @@ h3 {
         margin-top: 30px;
         margin-bottom: 30px;
     }
+    article.letters img {
+       width:  80%;
+       margin: 0 auto;
+    }
     article.comics {
         -moz-columns: 2;
         /* How many columns? */
