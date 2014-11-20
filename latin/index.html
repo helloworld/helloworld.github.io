@@ -1,0 +1,135 @@
+<html>
+
+<head>
+    <!--Import materialize.css-->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection" />
+    <style>
+    .sidebar {
+        background-color: #34495e;
+        overflow-y: scroll;
+        height: 90%;
+    }
+    #map-canvas {
+        position: absolute;
+        top: 64px;
+        /* Header Height */
+        
+        bottom: 0px;
+        /* Footer Height */
+        
+        width: 90%;
+    }
+    .title {
+        cursor: pointer;
+    }
+    .title:hover {
+        text-decoration: underline;
+    }
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+    var map;
+    var data = {
+        "Battle of Agrigentum": {
+            date: "261 BC",
+            description: "The Battle of Agrigentum was the first battle of the First Punic War. Agrigentum was a key location in Sicily, with several major routes passing through. Rome wished to take control over the city in order to prevent Carthage from using it to help them stage an attack on Rome. Rome was victorious over Hannibal and sold the entire population of Carthage into slavery.",
+            lat: 37.316667,
+            lon: 13.583333,
+            zoom: 10,
+        },
+        "Battle of the Lipari Islands": {
+            date: "260 BC",
+            description: "Confident from their victory in Agrigentum, the Romans decided to built a naval fleet to navigate and take control over the Mediterranean Sea. Scipio guided his ships to the Libari Islands in order to take control, but Hannibal led a surprise ambush that ended in Roman defeat",
+            lat: 38.5,
+            lon: 14.9456,
+            zoom: 10,
+        },
+        "Battle of Mylae": {
+            date: "260 BC",
+            description: "The Battle of the Libari Islands was not a true battle but rather an ambush, but the Battle of Mylae was the first real naval battle between the two powers. Roman general Gaius Duilius took advantage of the newly invented <i>corvus</i>, which was a large bridge like structure that allowed the Romans to board their enemy's ships",
+            lat: 38.216667,
+            lon: 15.233333,
+            zoom: 10,
+        },
+        "Battle of Cape Ecnomus": {
+            date: "256 BC",
+            description: "The Battle of Cape Ecnomus was a major naval battle off the coast of Licata in Sicily. It was the largest naval battle with 330 ships and 140,000 rowers on the Roman side and 250 ships and over 150,000 rowers on the Carthaginian side. Again utilizing the corvus, the Romans were victorious and inflicted heavy damage on the Carthaginian fleet.",
+            lat: 37.108333,
+            lon: 13.946944,
+            zoom: 10,
+        },
+        "Battle of Adys": {
+            date: "255 BC",
+            description: " Marcus Atilius Regulus led the Roman army and won a major victory for the Romans. The Carthaginians requested peace, but the terms that Regulus offered were too harsh, so the Carthaginians decided to keep fighting and the First Punic War continued.",
+            lat: 36.8,
+            lon: 10.183333,
+            zoom: 10,
+        },
+        "Battle of Tunis": {
+            date: "255 BC",
+            description: "General Xanthippus was hired by the Carthaginians for this battle. The Carthaginians used elephants and successfully defeated the Roman forces. Regulus, the Roman general, was taken prisoner and the scene of the war shifted away from Africa and back to Sicily and the Mediterranean sea. ",
+            lat: 36.8,
+            lon: 10.183333,
+            zoom: 10,
+        },
+         "Battle of Panormus": {
+            date: "251 BC",
+            description: "Lucius Caecilius Metellus led a Roman victory over Hasdrubal. This battle helped secure the city for the remainder of the war.  ",
+            lat: 38.116667, 
+            lon: 13.366667,
+            zoom: 10,
+        },
+        "Battle of the Aegates Islands": {
+            date: "241 BC",
+            description: "This was the final battle of the first Punic War. Gaius Lutatius Catulus strategically equipped the Roman ships with bare necessities, while the Carthaginian fleets were full of extra men and equipment. This gave the Romans an advantage and enabled them to win the battle. This also marked the end of the First Punic War, with Carthage admitting defeat and signing a peace treaty.",
+            lat: 37.966667, 
+            lon: 12.2,
+            zoom: 10,
+        },
+    }
+
+    function initialize() {
+        var mapOptions = {
+            zoom: 6,
+            center: new google.maps.LatLng(37.316667, 14.583333)
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        for (battle in data) {
+            var element = '<div class="col s12"><div class="card cyan"><div class="card-content"><h1 class="title" onclick="moveToLocation(' + data[battle].lat + ',' + data[battle].lon + ',' + data[battle].zoom + ')">' + battle + '</h1><p>' + data[battle].date + '</p></div><div class="card-footer"><p>' + data[battle].description + '</p></div></div></div>'
+            $(".sidebar").append(element);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(data[battle].lat, data[battle].lon),
+                map: map,
+                title: battle,
+            });
+        }
+    }
+
+    function moveToLocation(lat, lng, zoom) {
+        var center = new google.maps.LatLng(lat, lng);
+        map.setZoom(zoom)
+        map.panTo(center);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper"> <a href="#" class="brand-logo">Battles of the Second Punic War</a>
+            <ul id="nav-mobile" class="right side-nav">
+                <li><a href="citations.html">Citations</a> </li>
+            </ul> <a class="button-collapse" href="#" data-activates="nav-mobile"><i class="mdi-navigation-menu"></i></a> </div>
+    </nav>
+    <div class="row">
+        <div class="col s3 sidebar"> </div>
+        <div class="col s9">
+            <div id="map-canvas"></div>
+        </div>
+    </div>
+</body>
+
+</html>
