@@ -3,8 +3,6 @@
 
 <head>
     <title>Simple example</title>
-    <!-- <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
- -->
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <style type='text/css'>
     #sheet {
@@ -28,33 +26,30 @@
         margin-left: auto;
         margin-right: auto;
         display: block;
-        width: 90%;
         margin-top: 30px;
         background: #ecf0f1;
         border: 0px none black;
-        height: 400px;
     }
 
     button{
         margin: 0;
         padding: 20px;
-        width: 90%;
+        width: 800;
         margin: 0 auto;
         display: block;
         background: #2980b9;
         color: white;
+
     }
     </style>
     <script type="text/javascript" src="jquery.js"></script>
-    <!--     <script type="text/javascript" src="js/materialize.min.js"></script>
- -->
 </head>
 
 <body>
     <div class="navigation">
         New Brush Style
     </div>
-    <canvas id="sheet"></canvas>
+    <canvas id="sheet" width="800" height="800"></canvas>
     <br>
     <button onclick="save()">Save</button>
     <script type='text/javascript'>
