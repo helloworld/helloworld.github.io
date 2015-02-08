@@ -3,41 +3,59 @@
 
 <head>
     <title>Simple example</title>
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!-- <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
+ -->
+    <link rel="stylesheet" type="text/css" href="normalize.css">
     <style type='text/css'>
     #sheet {
         border: 1px solid black;
     }
+    body {
+        background: #bdc3c7;
+    }
+    .navigation {
+        height: 30px;
+        text-align: center;
+        background-color: #e74c3c;
+        padding: 30px;
+        color: white;
+        font-size: 30px;
+        line-height: 30px;
+    }
+    canvas {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: 90%;
+        margin-top: 30px;
+        background: #ecf0f1;
+        border: 0px none black;
+        height: 400px;
+    }
+
+    button{
+        margin: 0;
+        padding: 20px;
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+        background: #2980b9;
+        color: white;
+    }
     </style>
     <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!--     <script type="text/javascript" src="js/materialize.min.js"></script>
+ -->
 </head>
 
 <body>
-    <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Brush Style</a>
+    <div class="navigation">
+        New Brush Style
     </div>
-  </nav>
-  <div class="row">
-        <div class="col s12 m7">
-          <div class="card">
-            <div class="card-image">
-              <img src="images/sample-1.jpg">
-              <span class="card-title">Card Title</span>
-            </div>
-            <div class="card-content">
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href='#'>This is a link</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    <canvas id="sheet" width="900" height="900"></canvas>
+    <canvas id="sheet"></canvas>
+    <br>
     <button onclick="save()">Save</button>
     <script type='text/javascript'>
     /*jslint browser:true */
@@ -68,21 +86,21 @@
 
     function save() {
         var image = new Image();
-          image.src = canvas.toDataURL("image/png");
-          var imgDATA = image.src.replace(/^data:image\/(png|jpg);base64,/, "");
-          var request = $.ajax({
+        image.src = canvas.toDataURL("image/png");
+        var imgDATA = image.src.replace(/^data:image\/(png|jpg);base64,/, "");
+        var request = $.ajax({
             url: "http://104.236.192.49:3000/api/imageData/",
             type: "POST",
             data: "imgData=" + encodeURIComponent(imgDATA),
             contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-            processData : false,
+            processData: false,
             error: function(data) {
-              console.log(data);
-            }, 
+                console.log(data);
+            },
             success: function(data) {
-              console.log(data);
+                console.log(data);
             }
-          });
+        });
     }
 
     /**
