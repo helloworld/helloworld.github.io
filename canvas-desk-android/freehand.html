@@ -79,7 +79,7 @@
         <button class="button" onclick="decreaseBrush()">-</button>
     </div>
     <br>
-    <button class="butt buttonOne">Clear Canvas</button>
+    <button class="butt buttonOne" onclick="clearCanv()">Clear Canvas</button>
     <script type='text/javascript'>
     /*jslint browser:true */
     "use strict";
@@ -130,6 +130,10 @@
                 console.log(data);
             }
         });
+    }
+
+    function clearCanv(){
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     }
 
     function addClick(x, y, dragging) {
