@@ -30,8 +30,7 @@
         background: #ecf0f1;
         border: 0px none black;
     }
-
-    button{
+    .buttonOne{
         margin: 0;
         padding: 20px;
         width: 800px;
@@ -40,7 +39,20 @@
         display: block;
         background: #3498db;
         color: white;
-
+    }
+    .button{
+        margin: 0;
+        padding: 20px;
+        width: 400px;
+        height: 100px;
+        margin: 0 auto;
+        display: inline;
+        background: #e74c3c;
+        color: white;
+    }
+    .buttonCont{
+        width: 805px;
+        margin: 0 auto;
     }
     </style>
     <script type="text/javascript" src="jquery.js"></script>
@@ -52,7 +64,12 @@
     </div>
     <canvas id="sheet" width="800" height="1200"></canvas>
     <br>
-    <button onclick="save()">Save</button>
+    <button class="buttonOne" onclick="save()">Save</button>
+    <br>
+    <div class = "buttonCont">
+        <button class="button" onclick="increaseBrush()">Increase Brush Size</button>
+        <button class="button" onclick="decreaseBrush()">Decrease Brush Size</button>
+    </div>
     <script type='text/javascript'>
     /*jslint browser:true */
     "use strict";
@@ -62,24 +79,54 @@
     context.strokeStyle = "#000000";
     context.lineJoin = "round";
     context.lineWidth = 20;
-
     var clickX = [];
     var clickY = [];
     var clickDrag = [];
     var paint;
-
     /**
      * Add information where the user clicked at.
      * @param {number} x
      * @param {number} y
      * @return {boolean} dragging
      */
+    
+    function increaseBrush(){
+        var request = $.ajax({
+            url: "http://104.236.192.49:3000/api/increaseBrushSize/",
+            type: "POST",
+            data: "hi",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            processData: false,
+            error: function(data) {
+                console.log(data);
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function decreaseBrush(){
+        var request = $.ajax({
+            url: "http://104.236.192.49:3000/api/decreaseBrushSize/",
+            type: "POST",
+            data: "hi",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+            processData: false,
+            error: function(data) {
+                console.log(data);
+            },
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    }
+
     function addClick(x, y, dragging) {
         clickX.push(x);
         clickY.push(y);
         clickDrag.push(dragging);
     }
-
     function save() {
         var image = new Image();
         image.src = canvas.toDataURL("image/png");
@@ -98,14 +145,12 @@
             }
         });
     }
-
     /**
      * Redraw the complete canvas.
      */
     function redraw() {
         // Clears the canvas
         context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
         for (var i = 0; i < clickX.length; i += 1) {
             if (!clickDrag[i] && i == 0) {
                 context.beginPath();
@@ -113,7 +158,6 @@
                 context.stroke();
             } else if (!clickDrag[i] && i > 0) {
                 context.closePath();
-
                 context.beginPath();
                 context.moveTo(clickX[i], clickY[i]);
                 context.stroke();
@@ -123,7 +167,6 @@
             }
         }
     }
-
     /**
      * Draw the newly added point.
      * @return {void}
@@ -137,7 +180,6 @@
                 context.stroke();
             } else {
                 context.closePath();
-
                 context.beginPath();
                 context.moveTo(clickX[i], clickY[i]);
                 context.stroke();
@@ -147,7 +189,6 @@
             context.stroke();
         }
     }
-
     function mouseDownEventHandler(e) {
         paint = true;
         var x = e.pageX - canvas.offsetLeft;
@@ -157,7 +198,6 @@
             drawNew();
         }
     }
-
     function touchstartEventHandler(e) {
         paint = true;
         if (paint) {
@@ -165,12 +205,10 @@
             drawNew();
         }
     }
-
     function mouseUpEventHandler(e) {
         context.closePath();
         paint = false;
     }
-
     function mouseMoveEventHandler(e) {
         var x = e.pageX - canvas.offsetLeft;
         var y = e.pageY - canvas.offsetTop;
@@ -179,14 +217,12 @@
             drawNew();
         }
     }
-
     function touchMoveEventHandler(e) {
         if (paint) {
             addClick(e.touches[0].pageX - canvas.offsetLeft, e.touches[0].pageY - canvas.offsetTop, true);
             drawNew();
         }
     }
-
     function setUpHandler(isMouseandNotTouch, detectEvent) {
         removeRaceHandlers();
         if (isMouseandNotTouch) {
@@ -201,20 +237,16 @@
             touchstartEventHandler(detectEvent);
         }
     }
-
     function mouseWins(e) {
         setUpHandler(true, e);
     }
-
     function touchWins(e) {
         setUpHandler(false, e);
     }
-
     function removeRaceHandlers() {
         canvas.removeEventListener('mousedown', mouseWins);
         canvas.removeEventListener('touchstart', touchWins);
     }
-
     canvas.addEventListener('mousedown', mouseWins);
     canvas.addEventListener('touchstart', touchWins);
     </script>
