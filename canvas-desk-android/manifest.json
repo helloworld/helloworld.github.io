@@ -40,5 +40,5 @@
   ],
   "start_url": "freehand.html",
   "display": "standalone",
-  "orientation": "landscape"
+  "orientation": "portrait"
 }
