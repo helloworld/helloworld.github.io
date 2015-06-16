@@ -18,6 +18,8 @@ $("#run").click(function() {
 
 function runSimulation() {
 
+    var curCount = 0;
+
     var counter = 500;
     var myFunction = function() {
         clearInterval(interval);
@@ -38,14 +40,23 @@ function runSimulation() {
             append(1)
         }
 
+        curCount ++;
+
         $("#count").text(gFound)
         $("#total").text(i)
         $("#percentage").text(truncator((gFound / i) * 100, 0))
 
+        if(curCount > 100){
+            curCount = 0;
+            $('#results .card:lt(70)').remove();
+        }
+
         window.scrollTo(0, document.body.scrollHeight);
 
-
-        counter -= 10;
+        if (counter > 0) {
+            counter -= 10;
+        }
+        console.log(counter)
 
         interval = setInterval(myFunction, counter);
     }
