@@ -1,0 +1,36 @@
+/* Fix user-agent */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+}
+
+html,
+input {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+/* Application CSS */
+
+#main {
+    background-color: #1B1C1D;
+    padding: 20px 10%;
+}
+
+#main h1.title {
+    font-size: 50px;
+    color: #e95a4c;
+}
+
+#top {
+    background-color: #34495e;
+    color: white;
+    position: fixed;
+    padding: 10px 15px 10px 15px;
+    top: 40px;
+    right: 40px;
+    z-index:99999
+}
